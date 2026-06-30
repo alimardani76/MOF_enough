@@ -762,23 +762,6 @@ These should be handled through Zenodo, ARC-MOF's original data release, or priv
 If you use this repository, the processed outputs, or the figures in your work, please cite the preprint, the project data deposit, the underlying ARC-MOF dataset, and the CrystalNets topology-identification tool used for the topology-grouped splits.
 
 ```bibtex
-@misc{alimardani2026mof_descriptor_adequacy_preprint,
-  title        = {When Are Simple Descriptors Enough in MOF Adsorption Machine Learning?},
-  author       = {Alimardani, Hosein and Abaei, Shayan and Asgari, Mehrdad},
-  year         = {2026},
-  month        = may,
-  howpublished = {ChemRxiv},
-  doi          = {10.26434/chemrxiv-2026-15002010-v3},
-  note         = {Preprint, version 3}
-}
-
-@dataset{alimardani2026mof_descriptor_adequacy_data,
-  title     = {Data and processed outputs for "When Are Simple Descriptors Enough in MOF Adsorption Machine Learning?"},
-  author    = {Alimardani, Hosein and Abaei, Shayan and Asgari, Mehrdad},
-  year      = {2026},
-  publisher = {Zenodo},
-  doi       = {10.5281/zenodo.15055758}
-}
 
 @dataset{burner2025arcmof_v7,
   title     = {ab initio REPEAT Charge MOF Database (ARC-MOF)},
@@ -802,9 +785,7 @@ If you use this repository, the processed outputs, or the figures in your work, 
 
 ### How to cite this repository
 
-Alimardani, H., Abaei, S., Asgari, M. *When Are Simple Descriptors Enough in MOF Adsorption Machine Learning?* ChemRxiv preprint, 2026. doi:10.26434/chemrxiv-2026-15002010-v3
-
-Code: https://github.com/<your-org>/<repo-name>
+Alimardani, H., Abaei, S., Asgari, M. *When Are Simple Descriptors Enough in MOF Adsorption Machine Learning?* ChemRxiv preprint, 2026. doi:[10.26434/chemrxiv-2026-15002010-v3]
 
 ---
 
