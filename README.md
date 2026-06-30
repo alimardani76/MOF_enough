@@ -1,6 +1,5 @@
 # MOF Descriptor Adequacy Benchmark
-<img width="3072" height="2048" alt="Designer" src="https://github.com/user-attachments/assets/b40b702a-7c74-4d3e-9646-7682764fb503" />
-
+<img width="2528" height="1686" alt="Gemini_Generated_Image_jlqab3jlqab3jlqa" src="https://github.com/user-attachments/assets/b6b19649-816a-4966-81ef-97c9f6ae50c3" />
 
 **When Are Simple Descriptors Enough in MOF Adsorption Machine Learning?**
 
