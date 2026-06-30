@@ -1,0 +1,42 @@
+@'
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+
+# Local / temporary
+_regen_audit/
+MEGA_INSPECTION.md
+MEGA_INSPECTION_INDEX.csv
+pdf_numeric_contexts_for_inspection.csv
+paper_pdfs/
+results.7z
+*.zip
+*.7z
+*.tar
+*.tar.gz
+
+# Large external files not tracked in GitHub
+predictions.csv.gz
+checkpoints/
+*.pkl
+*.joblib
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# LaTeX build junk
+*.aux
+*.log
+*.out
+*.toc
+*.blg
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+'@ | Set-Content ".gitignore"
