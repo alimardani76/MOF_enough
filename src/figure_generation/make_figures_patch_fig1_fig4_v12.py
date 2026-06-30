@@ -1,29 +1,45 @@
 #!/usr/bin/env python3
 """
-polished_v12.py
+make_figures_patch_fig1_fig4_v13_phase3.py
 
-Patches v11:
-  Fig 1:
-    - A/B letters 20% smaller (50 → 40)
-    - Make top room for A so it doesn't overlap CH4 storage label
-      (top margin pushed down)
-    - REMOVE error bars (not visibly informative at SE ~ 0.05)
+Phase 3.1: Figure 1 (topology-transfer gap) rebuilt with SE-aware visuals.
 
-  Fig 4:
-    - 10% wider
-    - Legend moves to TOP CENTER (above each panel, not below)
-    - Keep error bars (they were visible and useful here)
+Panel A — vertical stack of per-process range bars:
+  - Light-blue range bar from OOD R² (left) to random R² (right)
+  - Error caps on BOTH ends use the propagated gap SE so they are visibly
+    asymmetric and informative (random-side R² SE is ~0 and would not show)
+  - Endpoint R² values printed outside the caps
+  - All bars same color, no confidence-tier styling here
+
+Panel B — heatmap of the gap (random R² − OOD R²) per process × layer:
+  - Blues colormap + colorbar restored
+  - Each cell shows "+mean" (large bold) and "±SE" (smaller) on a second line
+  - Cells with SE >= 0.10 are hatched (//// in black) to flag low confidence
+  - Methane storage Layer C is NaN (single-gas process)
+
+Figure 4 (= manuscript Fig 5, file fig4_target_construction.pdf) is a TODO
+for Phase 3.3 — left as a no-op here so this script can ship Figure 1 alone.
+
+Data source: results/step2_training/raw_metrics.csv  (per-fold R² per cell)
+Filtering: model == "lgbm", status == "ok"
+Aggregation: 4 folds for both random and balanced_topology_group splits,
+             per-target SE, then propagated cell- and process-level SE.
 """
-
 from __future__ import annotations
-import os
 from pathlib import Path
 import numpy as np
 import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
+from matplotlib.colors import Normalize
 
 
+
+
+# ============================================================
+# paths
+# ============================================================
 def find_repo_root(start: Path) -> Path:
     cur = start.resolve()
     if cur.is_file():
@@ -33,19 +49,47 @@ def find_repo_root(start: Path) -> Path:
             return parent
     return cur
 
-ROOT = find_repo_root(Path(__file__))
 
-DIR_A = ROOT / "results" / "step3A_descriptor_analysis"
-DIR_B = ROOT / "results" / "step3B_target_screening_analysis"
+ROOT = find_repo_root(Path(__file__))
+F_RAW = ROOT / "results" / "step2_training" / "raw_metrics.csv"
 OUT = ROOT / "figures" / "main"
 OUT.mkdir(parents=True, exist_ok=True)
 
-F_GAP_PER = DIR_A / "synthesizability_gap_per_combo.csv"
-F_REC     = DIR_A / "recommendation_table_lgbm_ood.csv"
+ROOT = find_repo_root(Path(__file__))
+W2 = 7.20
+DIR_A = ROOT / "results" / "step3A_descriptor_analysis"
+DIR_B = ROOT / "results" / "step3B_target_screening_analysis"
 F_Q1_FOLD = DIR_B / "q1_direct_vs_posthoc_lnS_per_fold.csv"
 F_Q2_FOLD = DIR_B / "q2_working_capacity_components_per_fold.csv"
+W2 = 7.20
+COLOR_BLUE = "#1f4e79"
+COLOR_LIGHT_BLUE = "#9ecae1"
 
-
+PROCESS_ORDER = [
+    "methane_storage_psa",
+    "post_combustion_vsa",
+    "pre_combustion_psa",
+    "natural_gas_purification",
+    "landfill_gas_vpsa",
+]
+PROCESS_DISPLAY = {
+    "methane_storage_psa":      "CH$_4$ storage",
+    "post_combustion_vsa":      "Post-comb. CO$_2$/N$_2$",
+    "pre_combustion_psa":       "Pre-comb. CO$_2$/H$_2$",
+    "natural_gas_purification": "NGP CO$_2$/CH$_4$",
+    "landfill_gas_vpsa":        "Landfill CO$_2$/CH$_4$",
+}
+LAYER_ORDER = ["A_raw_uptake", "B_working_capacity", "C_direct_log_selectivity"]
+LAYER_DISPLAY = {
+    "A_raw_uptake":              "uptake (A)",
+    "B_working_capacity":        "working cap. (B)",
+    "C_direct_log_selectivity":  "log $S$ (C)",
+}
+def print_done(name):
+    print(f"[ok] wrote {OUT/name}")
+# ============================================================
+# style
+# ============================================================
 mpl.rcParams.update({
     "font.family": "sans-serif",
     "font.sans-serif": ["Arial", "Arial Black", "Liberation Sans", "DejaVu Sans"],
@@ -71,10 +115,13 @@ mpl.rcParams.update({
     "ytick.major.width": 1.0,
 })
 
-W2 = 7.20
-COLOR_BLUE = "#1f4e79"
-COLOR_LIGHT_BLUE = "#9ecae1"
+BAR_COLOR  = "#9ecae1"     # light blue for Panel A bars
+COLOR_GREY = "#666666"
 
+
+# ============================================================
+# manuscript constants
+# ============================================================
 PROCESS_ORDER = [
     "methane_storage_psa",
     "post_combustion_vsa",
@@ -83,148 +130,260 @@ PROCESS_ORDER = [
     "landfill_gas_vpsa",
 ]
 PROCESS_DISPLAY = {
-    "methane_storage_psa":      "CH$_4$ storage",
-    "post_combustion_vsa":      "Post-comb. CO$_2$/N$_2$",
-    "pre_combustion_psa":       "Pre-comb. CO$_2$/H$_2$",
-    "natural_gas_purification": "NGP CO$_2$/CH$_4$",
-    "landfill_gas_vpsa":        "Landfill CO$_2$/CH$_4$",
+    "methane_storage_psa":      r"CH$_4$ storage",
+    "post_combustion_vsa":      r"Post-comb. CO$_2$/N$_2$",
+    "pre_combustion_psa":       r"Pre-comb. CO$_2$/H$_2$",
+    "natural_gas_purification": r"NGP CO$_2$/CH$_4$",
+    "landfill_gas_vpsa":        r"Landfill CO$_2$/CH$_4$",
 }
+
 LAYER_ORDER = ["A_raw_uptake", "B_working_capacity", "C_direct_log_selectivity"]
 LAYER_DISPLAY = {
-    "A_raw_uptake":              "uptake (A)",
-    "B_working_capacity":        "working cap. (B)",
-    "C_direct_log_selectivity":  "log $S$ (C)",
+    "A_raw_uptake":             "uptake (A)",
+    "B_working_capacity":       "working cap. (B)",
+    "C_direct_log_selectivity": r"log $S$ (C)",
 }
 
+# recommended descriptor family per (process, layer) — matches Table 1
+RECOMMENDED = {
+    ("methane_storage_psa",      "A_raw_uptake"):              "geo_plus_rac",
+    ("methane_storage_psa",      "B_working_capacity"):        "geometry_only",
+    ("post_combustion_vsa",      "A_raw_uptake"):              "geometry_only",
+    ("post_combustion_vsa",      "B_working_capacity"):        "geo_plus_rac",
+    ("post_combustion_vsa",      "C_direct_log_selectivity"):  "geo_plus_rac",
+    ("pre_combustion_psa",       "A_raw_uptake"):              "geometry_only",
+    ("pre_combustion_psa",       "B_working_capacity"):        "geo_plus_rac",
+    ("pre_combustion_psa",       "C_direct_log_selectivity"):  "geo_plus_rac",
+    ("natural_gas_purification", "A_raw_uptake"):              "geo_plus_rac",
+    ("natural_gas_purification", "B_working_capacity"):        "geo_plus_rac",
+    ("natural_gas_purification", "C_direct_log_selectivity"):  "geo_plus_rac",
+    ("landfill_gas_vpsa",        "A_raw_uptake"):              "geo_plus_rac",
+    ("landfill_gas_vpsa",        "B_working_capacity"):        "geo_plus_rac",
+    ("landfill_gas_vpsa",        "C_direct_log_selectivity"):  "geo_plus_rac",
+}
 
-def print_done(name):
-    print(f"[ok] wrote {OUT/name}")
+LOW_CONF_THRESHOLD = 0.10   # SE >= this -> hatched cell in Panel B
+BAR_HEIGHT = 0.42           # 20% thicker bars than the previous 0.35
 
 
-# =============================================================================
-# FIGURE 1 — no error bars; A/B 20% smaller; A doesn't overlap CH4 storage
-# =============================================================================
+# ============================================================
+# data wrangling
+# ============================================================
+def build_phase3_tables():
+    """Return (panelA_df, panelB_df) with means + SE per process and per cell."""
+    df = pd.read_csv(F_RAW)
+    df = df[(df["model"] == "lgbm") & (df["status"] == "ok")].copy()
 
-def figure1():
-    gap = pd.read_csv(F_GAP_PER)
-    rec = pd.read_csv(F_REC)
+    # per (target, family, split_type): mean and SE across folds
+    g = (df.groupby(["target", "process", "layer",
+                     "descriptor_family", "split_type"])["r2"]
+           .agg(["mean", "std", "count"])
+           .reset_index())
+    g["se"] = g["std"] / np.sqrt(g["count"])
 
-    gap = gap[gap["model"] == "lgbm"].copy()
-    rec_map = {
-        (r["process"], r["layer"]): r["recommended_family"]
-        for _, r in rec.iterrows()
-        if pd.notna(r.get("recommended_family"))
-    }
+    rand = g[g["split_type"] == "random"].rename(
+        columns={"mean": "r2_rand_mean", "se": "r2_rand_se"})
+    ood = g[g["split_type"] == "balanced_topology_group"].rename(
+        columns={"mean": "r2_ood_mean", "se": "r2_ood_se"})
 
-    keep = []
-    for _, r in gap.iterrows():
-        k = (r["process"], r["layer"])
-        if k in rec_map and r["descriptor_family"] == rec_map[k]:
-            keep.append(r)
-    rec_gap = pd.DataFrame(keep)
+    keys = ["target", "process", "layer", "descriptor_family"]
+    per_target = rand[keys + ["r2_rand_mean", "r2_rand_se"]].merge(
+        ood[keys + ["r2_ood_mean", "r2_ood_se"]], on=keys, how="inner")
 
-    sub = rec_gap.groupby(["process", "layer"], as_index=False).agg(
-        r2_random=("r2_random_mean", "mean"),
-        r2_ood=("r2_ood_mean", "mean"),
-    )
-    sub["r2_gap"] = sub["r2_random"] - sub["r2_ood"]
+    per_target["gap_mean"] = per_target["r2_rand_mean"] - per_target["r2_ood_mean"]
+    per_target["gap_se"] = np.sqrt(per_target["r2_rand_se"]**2 +
+                                   per_target["r2_ood_se"]**2)
 
-    perproc_records = []
-    for proc in PROCESS_ORDER:
-        proc_data = sub[sub["process"] == proc]
-        if proc_data.empty:
+    # Panel B: per (process, layer) cell under recommended family
+    rows = []
+    for (proc, layer), fam in RECOMMENDED.items():
+        sub = per_target[(per_target["process"] == proc) &
+                         (per_target["layer"] == layer) &
+                         (per_target["descriptor_family"] == fam)]
+        if sub.empty:
             continue
-        perproc_records.append({
+        n = len(sub)
+        rows.append({
             "process": proc,
-            "r2_random": proc_data["r2_random"].mean(),
-            "r2_ood": proc_data["r2_ood"].mean(),
-            "r2_gap": proc_data["r2_random"].mean() - proc_data["r2_ood"].mean(),
+            "layer": layer,
+            "family": fam,
+            "n_targets": n,
+            "r2_rand_mean": sub["r2_rand_mean"].mean(),
+            "r2_rand_se":   np.sqrt((sub["r2_rand_se"]**2).sum()) / n,
+            "r2_ood_mean":  sub["r2_ood_mean"].mean(),
+            "r2_ood_se":    np.sqrt((sub["r2_ood_se"]**2).sum()) / n,
+            "gap_mean":     sub["gap_mean"].mean(),
+            "gap_se":       np.sqrt((sub["gap_se"]**2).sum()) / n,
         })
-    perproc = pd.DataFrame(perproc_records)
+    panelB = pd.DataFrame(rows)
 
-    fig = plt.figure(figsize=(W2 * 1.65, 11.5))
-    # top=0.92 leaves room for A letter above the data
-    gs = fig.add_gridspec(2, 1, height_ratios=[1.0, 1.0], hspace=0.42,
-                          left=0.32, right=0.92, top=0.92, bottom=0.07)
+    # Panel A: per-process bar = mean of cell means across layers
+    rows = []
+    for proc in PROCESS_ORDER:
+        sub = panelB[panelB["process"] == proc]
+        if sub.empty:
+            continue
+        n = len(sub)
+        rows.append({
+            "process": proc,
+            "n_layers": n,
+            "r2_rand_mean": sub["r2_rand_mean"].mean(),
+            "r2_rand_se":   np.sqrt((sub["r2_rand_se"]**2).sum()) / n,
+            "r2_ood_mean":  sub["r2_ood_mean"].mean(),
+            "r2_ood_se":    np.sqrt((sub["r2_ood_se"]**2).sum()) / n,
+            "gap_mean":     sub["gap_mean"].mean(),
+            "gap_se":       np.sqrt((sub["gap_se"]**2).sum()) / n,
+        })
+    panelA = pd.DataFrame(rows)
+
+    return panelA, panelB
+
+
+# ============================================================
+# Figure 1
+# ============================================================
+def figure1():
+    panelA, panelB = build_phase3_tables()
+
+    fig = plt.figure(figsize=(9.2, 8.6))
+    gs = fig.add_gridspec(2, 2,
+                          height_ratios=[1.0, 1.0],
+                          width_ratios=[1.0, 0.035],
+                          hspace=0.45, wspace=0.03)
     axA = fig.add_subplot(gs[0, 0])
     axB = fig.add_subplot(gs[1, 0])
+    cax = fig.add_subplot(gs[1, 1])
 
-    # Panel A — NO error bars
-    y = np.arange(len(PROCESS_ORDER))[::-1]
-    for yi, proc in zip(y, PROCESS_ORDER):
-        row = perproc[perproc["process"] == proc]
-        if row.empty:
+    # ---------- Panel A ----------
+    n_proc = len(PROCESS_ORDER)
+    y = np.arange(n_proc)[::-1]   # methane on top
+
+    for i, proc in enumerate(PROCESS_ORDER):
+        r = panelA[panelA["process"] == proc]
+        if r.empty:
             continue
-        row = row.iloc[0]
-        rr, ro = row["r2_random"], row["r2_ood"]
-        g = rr - ro
+        r = r.iloc[0]
+        yy = y[i]
 
-        axA.plot([ro, rr], [yi, yi], color="#444444", lw=3.0, zorder=2)
-        axA.scatter([rr], [yi], s=180, color=COLOR_BLUE,
-                    edgecolor="black", lw=1.0, zorder=3,
-                    label="random $R^{2}$" if yi == y[0] else None)
-        axA.scatter([ro], [yi], s=180, facecolors="white",
-                    edgecolor=COLOR_BLUE, lw=2.5, zorder=3,
-                    label="topology-OOD $R^{2}$" if yi == y[0] else None)
-        axA.text(max(rr, ro) + 0.03, yi, f"+{g:.2f}",
-                 ha="left", va="center", fontsize=14, fontweight="bold")
+        # range bar OOD → random
+        axA.barh(yy, width=r["gap_mean"], left=r["r2_ood_mean"],
+                 height=BAR_HEIGHT, color=BAR_COLOR,
+                 edgecolor="black", linewidth=0.7, zorder=2)
 
+        # SE caps — both ends use propagated gap SE so they are visible
+        axA.errorbar(r["r2_ood_mean"], yy, xerr=r["gap_se"],
+                     fmt="none", ecolor="black",
+                     elinewidth=1.6, capsize=6, capthick=1.6, zorder=4)
+        axA.errorbar(r["r2_ood_mean"] + r["gap_mean"], yy, xerr=r["gap_se"],
+                     fmt="none", ecolor="black",
+                     elinewidth=1.6, capsize=6, capthick=1.6, zorder=4)
+
+        # endpoint R² labels, outside the caps
+        axA.text(r["r2_ood_mean"] - r["gap_se"] - 0.012, yy,
+                 f"{r['r2_ood_mean']:.2f}",
+                 va="center", ha="right",
+                 fontsize=9.5, fontweight="bold", color="#333333")
+        axA.text(r["r2_ood_mean"] + r["gap_mean"] + r["gap_se"] + 0.012, yy,
+                 f"{r['r2_rand_mean']:.2f}",
+                 va="center", ha="left",
+                 fontsize=9.5, fontweight="bold", color="#333333")
+
+    axA.set_xlim(0, 1.10)
+    axA.set_ylim(-0.6, n_proc - 0.4)
     axA.set_yticks(y)
     axA.set_yticklabels([PROCESS_DISPLAY[p] for p in PROCESS_ORDER],
-                        fontweight="bold", fontsize=18)
-    axA.set_xlim(-0.02, 1.20)
-    axA.set_xlabel(r"$R^{2}$ (recommended family, mean over layers)",
-                   fontweight="bold", fontsize=21)
-    axA.tick_params(axis="x", labelsize=20)
-    axA.grid(axis="x", ls=":", alpha=0.4)
-    axA.legend(loc="lower left", frameon=False, fontsize=17)
+                        fontweight="bold", fontsize=11)
+    axA.set_xlabel(r"$R^{2}$  (left: topology-OOD $\;\rightarrow\;$ right: random)",
+                   fontweight="bold", fontsize=11)
+    axA.tick_params(axis="y", length=0)
+    axA.tick_params(axis="x", labelsize=10)
+    axA.grid(axis="x", ls=":", alpha=0.35)
+    axA.text(-0.22, 1.04, "A", transform=axA.transAxes,
+             fontsize=22, fontweight="bold", ha="left", va="bottom")
 
-    # A letter — 20% smaller (50 → 40), positioned ABOVE the axes
-    # so it doesn't overlap CH4 storage label
-    fig.text(0.10, 0.95, "A",
-             fontsize=40, fontweight="bold",
-             fontfamily="Arial", ha="left", va="top")
+    # ---------- Panel B ----------
+    n_lay = len(LAYER_ORDER)
+    M = np.full((n_proc, n_lay), np.nan)
+    S = np.full((n_proc, n_lay), np.nan)
+    for _, row in panelB.iterrows():
+        i = PROCESS_ORDER.index(row["process"])
+        j = LAYER_ORDER.index(row["layer"])
+        M[i, j] = row["gap_mean"]
+        S[i, j] = row["gap_se"]
 
-    # Panel B — heatmap unchanged structure
-    pivot = sub.pivot_table(index="process", columns="layer", values="r2_gap")
-    pivot = pivot.reindex(index=PROCESS_ORDER, columns=LAYER_ORDER)
-    vmax = max(0.5, float(np.nanmax(pivot.values)))
-    im = axB.imshow(pivot.values, cmap="Oranges",
-                    vmin=0.0, vmax=vmax, aspect="auto")
-    for i in range(pivot.shape[0]):
-        for j in range(pivot.shape[1]):
-            v = pivot.values[i, j]
+    norm = Normalize(vmin=0.0, vmax=0.5)
+    cmap = plt.get_cmap("Blues")
+    im = axB.imshow(M, cmap=cmap, norm=norm, aspect="auto")
+
+    # NaN cells: light grey
+    for i in range(n_proc):
+        for j in range(n_lay):
+            if np.isnan(M[i, j]):
+                axB.add_patch(Rectangle((j - 0.5, i - 0.5), 1, 1,
+                                        fill=True, facecolor="#eeeeee",
+                                        edgecolor="white", lw=0))
+
+    # cell text + hatching for SE >= LOW_CONF_THRESHOLD
+    for i in range(n_proc):
+        for j in range(n_lay):
+            v, s = M[i, j], S[i, j]
             if np.isnan(v):
                 continue
-            tcolor = "white" if v > 0.6 * vmax else "black"
-            axB.text(j, i, f"{v:.2f}",
+            tcolor = "white" if v > 0.30 else "black"
+            axB.text(j, i - 0.12, f"{v:+.2f}",
                      ha="center", va="center",
-                     fontsize=20, fontweight="bold", color=tcolor)
+                     fontsize=12.5, fontweight="bold", color=tcolor)
+            axB.text(j, i + 0.22, f"\u00b1{s:.2f}",
+                     ha="center", va="center",
+                     fontsize=8.5, fontweight="bold", color=tcolor)
+            if s >= LOW_CONF_THRESHOLD:
+                axB.add_patch(Rectangle((j - 0.5, i - 0.5), 1, 1,
+                                        fill=False, hatch="////",
+                                        edgecolor="black", lw=0.0))
 
-    axB.set_xticks(range(len(LAYER_ORDER)))
+    axB.set_xticks(range(n_lay))
     axB.set_xticklabels([LAYER_DISPLAY[l] for l in LAYER_ORDER],
-                        fontweight="bold", fontsize=20)
-    axB.set_yticks(range(len(PROCESS_ORDER)))
+                        fontweight="bold", fontsize=11)
+    axB.set_yticks(range(n_proc))
     axB.set_yticklabels([PROCESS_DISPLAY[p] for p in PROCESS_ORDER],
-                        fontweight="bold", fontsize=18)
-    cbar = plt.colorbar(im, ax=axB, shrink=0.85, pad=0.04)
-    cbar.set_label(r"random $R^{2}\;-\;$OOD $R^{2}$",
-                   fontweight="bold", fontsize=17)
-    cbar.ax.tick_params(labelsize=20)
+                        fontweight="bold", fontsize=11)
+    axB.tick_params(axis="both", length=0)
+    axB.set_xlim(-0.5, n_lay - 0.5)
+    axB.set_ylim(n_proc - 0.5, -0.5)
 
-    # B letter — same x as A, between the two panels
-    fig.text(0.10, 0.495, "B",
-             fontsize=40, fontweight="bold",
-             fontfamily="Arial", ha="left", va="top")
+    cbar = plt.colorbar(im, cax=cax)
+    cbar.set_label(r"random $R^{2}$ $-$ OOD $R^{2}$",
+                   fontweight="bold", fontsize=11)
+    cbar.ax.tick_params(labelsize=9)
 
-    fig.savefig(OUT / "fig1_topology_transfer_gap.pdf")
+    axB.text(-0.22, 1.04, "B", transform=axB.transAxes,
+             fontsize=22, fontweight="bold", ha="left", va="bottom")
+
+    # footnote — normal size, black
+    fig.text(0.5, 0.012,
+             r"Hatched cells: SE $\geq$ 0.10 (low confidence)",
+             ha="center", va="bottom",
+             fontsize=11, fontweight="bold", color="black")
+
+    fig.subplots_adjust(left=0.22, right=0.94, top=0.95, bottom=0.07)
+    out_pdf = OUT / "fig1_topology_transfer_gap.pdf"
+    fig.savefig(out_pdf)
     plt.close(fig)
-    print_done("fig1_topology_transfer_gap.pdf")
+    print(f"[ok] wrote {out_pdf}")
 
+    # ---------- sanity print ----------
+    print("\n[Panel A — per-process range bars]")
+    for _, r in panelA.iterrows():
+        print(f"  {r['process']:<28s}  "
+              f"OOD {r['r2_ood_mean']:.3f}\u00b1{r['r2_ood_se']:.3f}  "
+              f"rand {r['r2_rand_mean']:.3f}\u00b1{r['r2_rand_se']:.3f}  "
+              f"gap {r['gap_mean']:+.3f}\u00b1{r['gap_se']:.3f}")
+    print("\n[Panel B — heatmap cells]")
+    for _, r in panelB.iterrows():
+        flag = "  LOW" if r["gap_se"] >= LOW_CONF_THRESHOLD else ""
+        print(f"  {r['process']:<28s}  {r['layer']:<28s}  "
+              f"{r['gap_mean']:+.3f}\u00b1{r['gap_se']:.3f}{flag}")
 
-# =============================================================================
-# FIGURE 4 — 10% wider; legend at TOP CENTER above each panel; keep err bars
-# =============================================================================
 
 def figure4():
     q1 = pd.read_csv(F_Q1_FOLD)
@@ -343,7 +502,6 @@ def figure4():
     fig.savefig(OUT / "fig4_target_construction.pdf")
     plt.close(fig)
     print_done("fig4_target_construction.pdf")
-
 
 def main():
     print(f"[run] writing to {OUT}")
