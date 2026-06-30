@@ -34,6 +34,8 @@ results/          Processed benchmark outputs used for tables, figures, and SI a
 src/              Dataset preparation, training, analysis, and figure-generation scripts
 figures/main/     Final manuscript figure assets
 ```
+figures/source_data/  Source data and CIF files for manuscript figure reproducibility
+
 
 It intentionally does **not** include:
 
@@ -41,7 +43,7 @@ It intentionally does **not** include:
 raw ARC-MOF source files
 predictions.csv.gz
 model checkpoint .pkl files
-large structural archives
+large structural archives, except the four post-hoc Figure 4 structural-audit CIFs provided for reproducibility
 manuscript .tex files
 reviewer comments
 temporary inspection files
@@ -146,13 +148,21 @@ No models are retrained or retuned in Stage 3. Stage 3 only re-slices and summar
 │       └── random_seed_45.json
 │
 ├── figures/
-│   └── main/
-│       ├── fig1_topology_transfer_gap.pdf
-│       ├── fig2_descriptor_adequacy_atlas.pdf
-│       ├── fig3_descriptor_gain_map.pdf
-│       ├── fig4_structural_audit.pdf
-│       ├── fig4_target_construction.pdf
-│       └── fig5_screening_yield.pdf
+│   ├── main/
+│   │   ├── fig1_topology_transfer_gap.pdf
+│   │   ├── fig2_descriptor_adequacy_atlas.pdf
+│   │   ├── fig3_descriptor_gain_map.pdf
+│   │   ├── fig4_structural_audit.pdf
+│   │   ├── fig4_target_construction.pdf
+│   │   └── fig5_screening_yield.pdf
+│   └── source_data/
+│       └── fig4_structural_audit/
+│           ├── README.md
+│           ├── structural_audit_final_cases_metadata.csv
+│           ├── Panel_A_rank_10_geometry_saturated_DB7-ddmof_20014_repeat.cif
+│           ├── Panel_B_rank_05_chemistry_premium_DB10-dia_sym_4_mc_si__L_5_repeat.cif
+│           ├── Panel_C_rank_06_descriptor_limited_DB5-hypotheticalMOF_5040363_1_1_1_15_16_5_repeat.cif
+│           └── Panel_D_rank_01_screening_instability_DB12-PAQJUM_freeONLY_repeat.cif
 │
 ├── results/
 │   ├── step2_training/
@@ -361,6 +371,16 @@ fig4_structural_audit.pdf
 fig4_target_construction.pdf
 fig5_screening_yield.pdf
 ```
+
+### Figure 4 structural-audit source data
+
+The folder
+
+    figures/source_data/fig4_structural_audit/
+
+contains the four ARC-MOF CIF files used to render the final Figure 4 structural-audit panels, together with `structural_audit_final_cases_metadata.csv`.
+
+These CIFs are included only for reproducibility of the post-hoc structural visualization. They were not used for model training, descriptor construction, hyperparameter optimization, descriptor-family recommendation, or performance evaluation. The structures are diagnostic audit examples selected from topology-OOD prediction outputs and should not be interpreted as experimentally validated sorbents, adsorption-site assignments, mechanistic explanations, or synthetic/stability claims.
 
 The filenames preserve the history of the analysis scripts. In the latest manuscript version, the structural audit was inserted into the main text, so the manuscript figure numbering differs from some historical script filenames.
 
