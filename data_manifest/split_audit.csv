@@ -1,0 +1,9 @@
+split_name,split_type,n_train,n_test
+random_seed_42,random,204751,51188
+random_seed_43,random,204751,51188
+random_seed_44,random,204751,51188
+random_seed_45,random,204751,51188
+balanced_group_fold_0,balanced_topology_group,161982,93957
+balanced_group_fold_1,balanced_topology_group,201945,53994
+balanced_group_fold_2,balanced_topology_group,201945,53994
+balanced_group_fold_3,balanced_topology_group,201945,53994

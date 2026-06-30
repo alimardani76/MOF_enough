@@ -1,0 +1,71 @@
+% =============================================================
+% NEW SI Section S14 — All-27 top-K recall
+% =============================================================
+
+\subsection*{Section~S14. Top-$K$ recall for all 27 targets}
+
+Table~\ref{tab:S9} reports top-100 and top-1000 recall under
+LightGBM topology-OOD for all 27 targets in the benchmark,
+evaluated for the descriptor family recommended in
+Section~3.6 (Rec.) and, where different, for the best family
+(Best). Values are averaged across the four topology-OOD
+folds. For Layer~C log-selectivity targets, the champion
+misidentification rate at $K=100$ ($1 - \text{precision@}100$)
+is also reported. The top-$K$ analysis confirms the divergence
+between regression accuracy and screening yield documented in
+the three representative cases of main-text Section~3.5:
+descriptor families that are practically equivalent in $R^{2}$
+can differ substantially in candidate yield at finite $K$.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Top-$K$ recall for all 27 targets under LightGBM
+topology-OOD. ``Rec.'' is the descriptor family recommended in
+Section~3.6; ``Best'' is the highest-$R^{2}$ family when
+different from ``Rec.''. recall@$K$ and precision@$K$ are
+identical here because we evaluate top-$K$ subsets of equal size.}
+\label{tab:S9}
+\begin{tabular}{llllccc}
+\hline
+Target & Layer & Role & Family & recall@100 & recall@1000 & misid@100 \\
+\hline
+\texttt{CH4\_5.8bar} & A & Rec./Best & \textbf{Geo+RAC} & 0.17 & 0.39 & -- \\
+\texttt{CH4\_65bar} & A & Rec./Best & \textbf{Geo+RAC} & 0.84 & 0.83 & -- \\
+\texttt{postcomb\_CO2\_0.015bar} & A & Rec. & \textbf{Geo} & 0.13 & 0.25 & -- \\
+\texttt{} &  & Best & \textbf{Geo+Topo} & 0.06 & 0.30 & -- \\
+\texttt{postcomb\_CO2\_0.15bar} & A & Rec. & \textbf{Geo} & 0.04 & 0.20 & -- \\
+\texttt{} &  & Best & \textbf{Geo+Topo} & 0.04 & 0.23 & -- \\
+\texttt{postcomb\_N2\_0.075bar} & A & Rec. & \textbf{Geo} & 0.09 & 0.40 & -- \\
+\texttt{} &  & Best & \textbf{Geo+Topo} & 0.17 & 0.45 & -- \\
+\texttt{postcomb\_N2\_0.75bar} & A & Rec. & \textbf{Geo} & 0.14 & 0.46 & -- \\
+\texttt{} &  & Best & \textbf{Geo+Topo} & 0.26 & 0.55 & -- \\
+\texttt{precomb\_CO2\_0.4bar} & A & Rec. & \textbf{Geo} & 0.04 & 0.18 & -- \\
+\texttt{} &  & Best & \textbf{Geo+RAC} & 0.29 & 0.36 & -- \\
+\texttt{precomb\_CO2\_16bar} & A & Rec. & \textbf{Geo} & 0.03 & 0.31 & -- \\
+\texttt{} &  & Best & \textbf{Geo+RAC} & 0.52 & 0.58 & -- \\
+\texttt{precomb\_H2\_0.6bar} & A & Rec. & \textbf{Geo} & 0.56 & 0.67 & -- \\
+\texttt{} &  & Best & \textbf{Geo+RAC} & 0.68 & 0.66 & -- \\
+\texttt{precomb\_H2\_24bar} & A & Rec. & \textbf{Geo} & 0.68 & 0.84 & -- \\
+\texttt{} &  & Best & \textbf{Geo+RAC} & 0.90 & 0.93 & -- \\
+\texttt{ngp\_CO2\_0.1bar} & A & Rec./Best & \textbf{Geo+RAC} & 0.34 & 0.40 & -- \\
+\texttt{ngp\_CO2\_1.0bar} & A & Rec./Best & \textbf{Geo+RAC} & 0.52 & 0.42 & -- \\
+\texttt{ngp\_CH4\_0.9bar} & A & Rec./Best & \textbf{Geo+RAC} & 0.12 & 0.34 & -- \\
+\texttt{ngp\_CH4\_9.0bar} & A & Rec./Best & \textbf{Geo+RAC} & 0.17 & 0.36 & -- \\
+\texttt{landfill\_CO2\_0.26bar} & A & Rec./Best & \textbf{Geo+RAC} & 0.29 & 0.40 & -- \\
+\texttt{landfill\_CO2\_3.2bar} & A & Rec./Best & \textbf{Geo+RAC} & 0.45 & 0.42 & -- \\
+\texttt{landfill\_CH4\_0.01bar} & A & Rec./Best & \textbf{Geo+RAC} & 0.12 & 0.34 & -- \\
+\texttt{landfill\_CH4\_4.4bar} & A & Rec./Best & \textbf{Geo+RAC} & 0.17 & 0.39 & -- \\
+\texttt{methane\_storage\_working\_capacity} & B & Rec. & \textbf{Geo} & 0.61 & 0.69 & -- \\
+\texttt{} &  & Best & \textbf{Geo+RAC} & 0.84 & 0.84 & -- \\
+\texttt{postcomb\_working\_capacity} & B & Rec./Best & \textbf{Geo+RAC} & 0.20 & 0.35 & -- \\
+\texttt{precomb\_working\_capacity} & B & Rec./Best & \textbf{Geo+RAC} & 0.31 & 0.55 & -- \\
+\texttt{ngp\_working\_capacity} & B & Rec./Best & \textbf{Geo+RAC} & 0.55 & 0.39 & -- \\
+\texttt{landfill\_working\_capacity} & B & Rec./Best & \textbf{Geo+RAC} & 0.41 & 0.40 & -- \\
+\texttt{postcomb\_log\_selectivity} & C & Rec./Best & \textbf{Geo+RAC} & 0.13 & 0.42 & 0.87 \\
+\texttt{precomb\_log\_selectivity} & C & Rec./Best & \textbf{Geo+RAC} & 0.13 & 0.27 & 0.87 \\
+\texttt{ngp\_log\_selectivity} & C & Rec./Best & \textbf{Geo+RAC} & 0.49 & 0.50 & 0.51 \\
+\texttt{landfill\_log\_selectivity} & C & Rec./Best & \textbf{Geo+RAC} & 0.43 & 0.51 & 0.57 \\
+\hline
+\end{tabular}
+\end{table}

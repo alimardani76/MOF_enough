@@ -1,0 +1,511 @@
+{
+  "files": {
+    "geometry": {
+      "path": "E:\\AMI\\Step 1\\geometric_properties.csv",
+      "exists": true,
+      "name": "geometric_properties.csv"
+    },
+    "racs": {
+      "path": "E:\\AMI\\Step 1\\RACs.csv",
+      "exists": true,
+      "name": "RACs.csv"
+    },
+    "topology": {
+      "path": "E:\\AMI\\Step 1\\all_topology_lists.csv",
+      "exists": true,
+      "name": "all_topology_lists.csv"
+    },
+    "methane": {
+      "path": "E:\\AMI\\Step 1\\methane.csv",
+      "exists": true,
+      "name": "methane.csv"
+    },
+    "postcomb_co2": {
+      "path": "E:\\AMI\\Step 1\\post_comb_vsa-CO2.csv",
+      "exists": true,
+      "name": "post_comb_vsa-CO2.csv"
+    },
+    "postcomb_n2": {
+      "path": "E:\\AMI\\Step 1\\post_comb_vsa-N2.csv",
+      "exists": true,
+      "name": "post_comb_vsa-N2.csv"
+    },
+    "precomb_co2": {
+      "path": "E:\\AMI\\Step 1\\pre_comb_4040-CO2.csv",
+      "exists": true,
+      "name": "pre_comb_4040-CO2.csv"
+    },
+    "precomb_h2": {
+      "path": "E:\\AMI\\Step 1\\pre_comb_4040-H2.csv",
+      "exists": true,
+      "name": "pre_comb_4040-H2.csv"
+    },
+    "ngp_co2": {
+      "path": "E:\\AMI\\Step 1\\methane_purification-CO2.csv",
+      "exists": true,
+      "name": "methane_purification-CO2.csv"
+    },
+    "ngp_ch4": {
+      "path": "E:\\AMI\\Step 1\\methane_purification-CH4.csv",
+      "exists": true,
+      "name": "methane_purification-CH4.csv"
+    },
+    "landfill_co2": {
+      "path": "E:\\AMI\\Step 1\\landfill-CO2.csv",
+      "exists": true,
+      "name": "landfill-CO2.csv"
+    },
+    "landfill_ch4": {
+      "path": "E:\\AMI\\Step 1\\landfill-CH4.csv",
+      "exists": true,
+      "name": "landfill-CH4.csv"
+    },
+    "process": {
+      "path": "E:\\AMI\\Step 1\\overall_process.csv",
+      "exists": true,
+      "name": "overall_process.csv"
+    }
+  },
+  "adsorption_file_inventory_rows": 10,
+  "geometry": {
+    "source": "geometry",
+    "n_rows": 521316,
+    "n_unique_ids": 521316
+  },
+  "topology": {
+    "source": "topology",
+    "selected_key": "Name",
+    "selected_overlap": 263744,
+    "candidate_overlaps": {
+      "Name": 263744,
+      "filename": 0
+    },
+    "n_rows_after_dedup": 264225,
+    "n_unique_ids": 264225,
+    "n_crystalnet": 463
+  },
+  "racs": {
+    "source": "RACs",
+    "selected_key": "filename",
+    "selected_overlap": 472514,
+    "candidate_overlaps": {
+      "filename": 472514
+    },
+    "n_raw_rac_columns": 176,
+    "n_numeric_rac_columns": 176,
+    "n_kept_rac_columns": 146,
+    "n_dropped_low_variance": 30,
+    "variance_threshold": 0.01,
+    "missing_values_before_imputation": 0,
+    "n_unique_ids": 472571
+  },
+  "targets": {
+    "raw_uptake": [
+      {
+        "source": "methane.csv:CH4_5.8bar",
+        "selected_key": "filename",
+        "selected_overlap": 279010,
+        "candidate_overlaps": {
+          "filename": 279010
+        },
+        "target": "CH4_5.8bar",
+        "file": "methane.csv",
+        "pressure_bar": 5.8,
+        "value_col": "mmol/g",
+        "n_rows_selected": 279610,
+        "n_unique_ids": 279610,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "methane.csv:CH4_65bar",
+        "selected_key": "filename",
+        "selected_overlap": 279010,
+        "candidate_overlaps": {
+          "filename": 279010
+        },
+        "target": "CH4_65bar",
+        "file": "methane.csv",
+        "pressure_bar": 65.0,
+        "value_col": "mmol/g",
+        "n_rows_selected": 279610,
+        "n_unique_ids": 279610,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "post_comb_vsa-CO2.csv:postcomb_CO2_0.015bar",
+        "selected_key": "filename",
+        "selected_overlap": 279010,
+        "candidate_overlaps": {
+          "filename": 279010
+        },
+        "target": "postcomb_CO2_0.015bar",
+        "file": "post_comb_vsa-CO2.csv",
+        "pressure_bar": 0.015,
+        "value_col": "mmol/g",
+        "n_rows_selected": 279610,
+        "n_unique_ids": 279610,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "post_comb_vsa-CO2.csv:postcomb_CO2_0.15bar",
+        "selected_key": "filename",
+        "selected_overlap": 279010,
+        "candidate_overlaps": {
+          "filename": 279010
+        },
+        "target": "postcomb_CO2_0.15bar",
+        "file": "post_comb_vsa-CO2.csv",
+        "pressure_bar": 0.15,
+        "value_col": "mmol/g",
+        "n_rows_selected": 279610,
+        "n_unique_ids": 279610,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "post_comb_vsa-N2.csv:postcomb_N2_0.075bar",
+        "selected_key": "filename",
+        "selected_overlap": 279010,
+        "candidate_overlaps": {
+          "filename": 279010
+        },
+        "target": "postcomb_N2_0.075bar",
+        "file": "post_comb_vsa-N2.csv",
+        "pressure_bar": 0.075,
+        "value_col": "mmol/g",
+        "n_rows_selected": 279610,
+        "n_unique_ids": 279610,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "post_comb_vsa-N2.csv:postcomb_N2_0.75bar",
+        "selected_key": "filename",
+        "selected_overlap": 279010,
+        "candidate_overlaps": {
+          "filename": 279010
+        },
+        "target": "postcomb_N2_0.75bar",
+        "file": "post_comb_vsa-N2.csv",
+        "pressure_bar": 0.75,
+        "value_col": "mmol/g",
+        "n_rows_selected": 279610,
+        "n_unique_ids": 279610,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "pre_comb_4040-CO2.csv:precomb_CO2_0.4bar",
+        "selected_key": "filename",
+        "selected_overlap": 279010,
+        "candidate_overlaps": {
+          "filename": 279010
+        },
+        "target": "precomb_CO2_0.4bar",
+        "file": "pre_comb_4040-CO2.csv",
+        "pressure_bar": 0.4,
+        "value_col": "mmol/g",
+        "n_rows_selected": 279610,
+        "n_unique_ids": 279610,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "pre_comb_4040-CO2.csv:precomb_CO2_16bar",
+        "selected_key": "filename",
+        "selected_overlap": 279010,
+        "candidate_overlaps": {
+          "filename": 279010
+        },
+        "target": "precomb_CO2_16bar",
+        "file": "pre_comb_4040-CO2.csv",
+        "pressure_bar": 16.0,
+        "value_col": "mmol/g",
+        "n_rows_selected": 279485,
+        "n_unique_ids": 279485,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "pre_comb_4040-H2.csv:precomb_H2_0.6bar",
+        "selected_key": "filename",
+        "selected_overlap": 279010,
+        "candidate_overlaps": {
+          "filename": 279010
+        },
+        "target": "precomb_H2_0.6bar",
+        "file": "pre_comb_4040-H2.csv",
+        "pressure_bar": 0.6,
+        "value_col": "mmol/g",
+        "n_rows_selected": 279610,
+        "n_unique_ids": 279610,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "pre_comb_4040-H2.csv:precomb_H2_24bar",
+        "selected_key": "filename",
+        "selected_overlap": 279010,
+        "candidate_overlaps": {
+          "filename": 279010
+        },
+        "target": "precomb_H2_24bar",
+        "file": "pre_comb_4040-H2.csv",
+        "pressure_bar": 24.0,
+        "value_col": "mmol/g",
+        "n_rows_selected": 279485,
+        "n_unique_ids": 279485,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "methane_purification-CO2.csv:ngp_CO2_0.1bar",
+        "selected_key": "filename",
+        "selected_overlap": 279010,
+        "candidate_overlaps": {
+          "filename": 279010
+        },
+        "target": "ngp_CO2_0.1bar",
+        "file": "methane_purification-CO2.csv",
+        "pressure_bar": 0.1,
+        "value_col": "mmol/g",
+        "n_rows_selected": 279609,
+        "n_unique_ids": 279609,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "methane_purification-CO2.csv:ngp_CO2_1.0bar",
+        "selected_key": "filename",
+        "selected_overlap": 279010,
+        "candidate_overlaps": {
+          "filename": 279010
+        },
+        "target": "ngp_CO2_1.0bar",
+        "file": "methane_purification-CO2.csv",
+        "pressure_bar": 1.0,
+        "value_col": "mmol/g",
+        "n_rows_selected": 279610,
+        "n_unique_ids": 279610,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "methane_purification-CH4.csv:ngp_CH4_0.9bar",
+        "selected_key": "filename",
+        "selected_overlap": 279010,
+        "candidate_overlaps": {
+          "filename": 279010
+        },
+        "target": "ngp_CH4_0.9bar",
+        "file": "methane_purification-CH4.csv",
+        "pressure_bar": 0.9,
+        "value_col": "mmol/g",
+        "n_rows_selected": 279609,
+        "n_unique_ids": 279609,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "methane_purification-CH4.csv:ngp_CH4_9.0bar",
+        "selected_key": "filename",
+        "selected_overlap": 279010,
+        "candidate_overlaps": {
+          "filename": 279010
+        },
+        "target": "ngp_CH4_9.0bar",
+        "file": "methane_purification-CH4.csv",
+        "pressure_bar": 9.0,
+        "value_col": "mmol/g",
+        "n_rows_selected": 279610,
+        "n_unique_ids": 279610,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "landfill-CO2.csv:landfill_CO2_0.26bar",
+        "selected_key": "filename",
+        "selected_overlap": 279010,
+        "candidate_overlaps": {
+          "filename": 279010
+        },
+        "target": "landfill_CO2_0.26bar",
+        "file": "landfill-CO2.csv",
+        "pressure_bar": 0.26,
+        "value_col": "mmol/g",
+        "n_rows_selected": 279610,
+        "n_unique_ids": 279610,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "landfill-CO2.csv:landfill_CO2_3.2bar",
+        "selected_key": "filename",
+        "selected_overlap": 279010,
+        "candidate_overlaps": {
+          "filename": 279010
+        },
+        "target": "landfill_CO2_3.2bar",
+        "file": "landfill-CO2.csv",
+        "pressure_bar": 3.2,
+        "value_col": "mmol/g",
+        "n_rows_selected": 279610,
+        "n_unique_ids": 279610,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "landfill-CH4.csv:landfill_CH4_0.01bar",
+        "selected_key": "filename",
+        "selected_overlap": 279010,
+        "candidate_overlaps": {
+          "filename": 279010
+        },
+        "target": "landfill_CH4_0.01bar",
+        "file": "landfill-CH4.csv",
+        "pressure_bar": 0.01,
+        "value_col": "mmol/g",
+        "n_rows_selected": 279610,
+        "n_unique_ids": 279610,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "landfill-CH4.csv:landfill_CH4_4.4bar",
+        "selected_key": "filename",
+        "selected_overlap": 279010,
+        "candidate_overlaps": {
+          "filename": 279010
+        },
+        "target": "landfill_CH4_4.4bar",
+        "file": "landfill-CH4.csv",
+        "pressure_bar": 4.4,
+        "value_col": "mmol/g",
+        "n_rows_selected": 279610,
+        "n_unique_ids": 279610,
+        "missing_after_groupby": 0
+      }
+    ],
+    "working_capacity": [
+      {
+        "source": "overall_process",
+        "target": "postcomb_working_capacity",
+        "process_row": "post-combustion-vsa",
+        "source_column": "mmol/g_working_capacity",
+        "transform": "none",
+        "n_rows_selected": 279005,
+        "n_unique_ids": 279005,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "overall_process",
+        "target": "precomb_working_capacity",
+        "process_row": "pre-combustion-40-40",
+        "source_column": "mmol/g_working_capacity",
+        "transform": "none",
+        "n_rows_selected": 279005,
+        "n_unique_ids": 279005,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "overall_process",
+        "target": "ngp_working_capacity",
+        "process_row": "natural-gas-purification",
+        "source_column": "mmol/g_working_capacity",
+        "transform": "none",
+        "n_rows_selected": 279005,
+        "n_unique_ids": 279005,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "overall_process",
+        "target": "landfill_working_capacity",
+        "process_row": "landfill-gas-vpsa",
+        "source_column": "mmol/g_working_capacity",
+        "transform": "none",
+        "n_rows_selected": 279005,
+        "n_unique_ids": 279005,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "overall_process",
+        "target": "methane_storage_working_capacity",
+        "process_row": "methane-storage-psa",
+        "source_column": "mmol/g_working_capacity",
+        "transform": "none",
+        "n_rows_selected": 279005,
+        "n_unique_ids": 279005,
+        "missing_after_groupby": 0
+      }
+    ],
+    "log_selectivity": [
+      {
+        "source": "overall_process",
+        "target": "postcomb_log_selectivity",
+        "process_row": "post-combustion-vsa",
+        "source_column": "selectivity",
+        "transform": "log",
+        "n_rows_selected": 279005,
+        "n_unique_ids": 279005,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "overall_process",
+        "target": "precomb_log_selectivity",
+        "process_row": "pre-combustion-40-40",
+        "source_column": "selectivity",
+        "transform": "log",
+        "n_rows_selected": 279005,
+        "n_unique_ids": 279005,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "overall_process",
+        "target": "ngp_log_selectivity",
+        "process_row": "natural-gas-purification",
+        "source_column": "selectivity",
+        "transform": "log",
+        "n_rows_selected": 279005,
+        "n_unique_ids": 279005,
+        "missing_after_groupby": 0
+      },
+      {
+        "source": "overall_process",
+        "target": "landfill_log_selectivity",
+        "process_row": "landfill-gas-vpsa",
+        "source_column": "selectivity",
+        "transform": "log",
+        "n_rows_selected": 279005,
+        "n_unique_ids": 279005,
+        "missing_after_groupby": 0
+      }
+    ],
+    "overall_process_key": {
+      "source": "overall_process",
+      "selected_key": "filename",
+      "selected_overlap": 278407,
+      "candidate_overlaps": {
+        "filename": 278407
+      }
+    }
+  },
+  "strict_filter": {
+    "strict_common_cohort": true,
+    "n_before": 521316,
+    "n_after": 255939,
+    "n_removed": 265377,
+    "fraction_retained": 0.4909479087539995
+  },
+  "descriptor_families": {
+    "geometry_only": {
+      "n_num": 6,
+      "n_cat": 0
+    },
+    "enriched_interpretable": {
+      "n_num": 29,
+      "n_cat": 0
+    },
+    "topology_only": {
+      "n_num": 0,
+      "n_cat": 1
+    },
+    "geometry_plus_topology": {
+      "n_num": 29,
+      "n_cat": 1
+    },
+    "rac_only": {
+      "n_num": 146,
+      "n_cat": 0
+    },
+    "geo_plus_rac": {
+      "n_num": 175,
+      "n_cat": 0
+    }
+  }
+}

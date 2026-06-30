@@ -1,0 +1,92 @@
+{
+  "n_rows": 255939,
+  "n_cols": 211,
+  "n_targets": 27,
+  "targets": [
+    "CH4_5.8bar",
+    "CH4_65bar",
+    "postcomb_CO2_0.015bar",
+    "postcomb_CO2_0.15bar",
+    "postcomb_N2_0.075bar",
+    "postcomb_N2_0.75bar",
+    "precomb_CO2_0.4bar",
+    "precomb_CO2_16bar",
+    "precomb_H2_0.6bar",
+    "precomb_H2_24bar",
+    "ngp_CO2_0.1bar",
+    "ngp_CO2_1.0bar",
+    "ngp_CH4_0.9bar",
+    "ngp_CH4_9.0bar",
+    "landfill_CO2_0.26bar",
+    "landfill_CO2_3.2bar",
+    "landfill_CH4_0.01bar",
+    "landfill_CH4_4.4bar",
+    "postcomb_working_capacity",
+    "precomb_working_capacity",
+    "ngp_working_capacity",
+    "landfill_working_capacity",
+    "methane_storage_working_capacity",
+    "postcomb_log_selectivity",
+    "precomb_log_selectivity",
+    "ngp_log_selectivity",
+    "landfill_log_selectivity"
+  ],
+  "descriptor_families": {
+    "geometry_only": {
+      "n_num": 6,
+      "n_cat": 0
+    },
+    "enriched_interpretable": {
+      "n_num": 29,
+      "n_cat": 0
+    },
+    "topology_only": {
+      "n_num": 0,
+      "n_cat": 1
+    },
+    "geometry_plus_topology": {
+      "n_num": 29,
+      "n_cat": 1
+    },
+    "rac_only": {
+      "n_num": 146,
+      "n_cat": 0
+    },
+    "geo_plus_rac": {
+      "n_num": 175,
+      "n_cat": 0
+    }
+  },
+  "has_filename": true,
+  "has_Crystalnet": true,
+  "duplicate_filenames": 0,
+  "target_missing_counts": {
+    "CH4_5.8bar": 0,
+    "CH4_65bar": 0,
+    "postcomb_CO2_0.015bar": 0,
+    "postcomb_CO2_0.15bar": 0,
+    "postcomb_N2_0.075bar": 0,
+    "postcomb_N2_0.75bar": 0,
+    "precomb_CO2_0.4bar": 0,
+    "precomb_CO2_16bar": 0,
+    "precomb_H2_0.6bar": 0,
+    "precomb_H2_24bar": 0,
+    "ngp_CO2_0.1bar": 0,
+    "ngp_CO2_1.0bar": 0,
+    "ngp_CH4_0.9bar": 0,
+    "ngp_CH4_9.0bar": 0,
+    "landfill_CO2_0.26bar": 0,
+    "landfill_CO2_3.2bar": 0,
+    "landfill_CH4_0.01bar": 0,
+    "landfill_CH4_4.4bar": 0,
+    "postcomb_working_capacity": 0,
+    "precomb_working_capacity": 0,
+    "ngp_working_capacity": 0,
+    "landfill_working_capacity": 0,
+    "methane_storage_working_capacity": 0,
+    "postcomb_log_selectivity": 0,
+    "precomb_log_selectivity": 0,
+    "ngp_log_selectivity": 0,
+    "landfill_log_selectivity": 0
+  }
+}

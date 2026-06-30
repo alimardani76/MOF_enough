@@ -1,0 +1,16 @@
+{
+  "version": "v9_step2_model_training_resilient",
+  "purpose": "controlled descriptor adequacy benchmark",
+  "models": [
+    "ridge",
+    "rf",
+    "lgbm"
+  ],
+  "optuna_trials": 10,
+  "optuna_n_jobs": 1,
+  "model_n_jobs": 11,
+  "skip_completed": true,
+  "force_rerun": false,
+  "sklearnex_requested": true,
+  "sklearnex_enabled": true
+}

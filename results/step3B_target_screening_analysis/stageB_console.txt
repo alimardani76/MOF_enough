@@ -1,0 +1,26 @@
+PS E:\AMI\Step 2\benchmark_v9_outputs\predictions> py .\step3_stageB.py
+[stage-B] ======================================================================
+[stage-B] STAGE B — Results §3.4 and §3.5
+[stage-B] ======================================================================
+[stage-B] Need 104 combos | Q1=48 Q2=60 Q3=24
+[stage-B] Streaming predictions.csv.gz in chunks of 1,000,000 rows
+[stage-B]   chunks: 110, rows seen: 110,000,000, kept: 751,656
+[stage-B]   chunks: 120, rows seen: 120,000,000, kept: 1,127,484
+[stage-B]   chunks: 130, rows seen: 130,000,000, kept: 1,503,312
+[stage-B]   chunks: 160, rows seen: 160,000,000, kept: 3,198,798
+[stage-B]   chunks: 170, rows seen: 170,000,000, kept: 3,738,738
+[stage-B]   chunks: 190, rows seen: 190,000,000, kept: 4,764,624
+[stage-B]   chunks: 200, rows seen: 200,000,000, kept: 5,466,546
+[stage-B]   chunks: 210, rows seen: 210,000,000, kept: 5,898,498
+[stage-B]   chunks: 220, rows seen: 220,000,000, kept: 6,384,444
+[stage-B] Done streaming. Total rows: 223,895,826, kept rows: 6,654,414
+[stage-B] Computing Q1
+[stage-B]   Q1 per-fold rows: 16; summary rows: 4
+[stage-B] Computing Q2
+[stage-B]   Q2 per-fold rows: 20; summary rows: 5
+[stage-B] Computing Q3
+[stage-B]   Q3 per-fold rows: 24; summary rows: 6
+[stage-B] ======================================================================
+[stage-B] STAGE B COMPLETE
+[stage-B] Outputs in: E:\AMI\Step 2\benchmark_v9_outputs\predictions\step3_stageB_outputs
+[stage-B] ======================================================================

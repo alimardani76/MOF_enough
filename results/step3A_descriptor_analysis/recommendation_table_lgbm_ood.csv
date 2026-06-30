@@ -1,0 +1,15 @@
+best_family,best_r2_mean,best_r2_se,equivalence_margin_used,recommended_family,recommended_r2_mean,recommended_r2_se,equivalent_set,process,layer,n_targets
+geo_plus_rac,0.8345405298336093,0.140653234543099,0.140653234543099,geo_plus_rac,0.8345405298336093,0.140653234543099,geo_plus_rac,methane_storage_psa,A_raw_uptake,2
+geometry_plus_topology,0.2302132413885123,0.10800837880752245,0.10800837880752245,geometry_only,0.17774633186403055,0.07244629785235834,geometry_only|enriched_interpretable|geometry_plus_topology|geo_plus_rac,post_combustion_vsa,A_raw_uptake,4
+geo_plus_rac,0.8285419409927566,0.10358194363788492,0.10358194363788492,geometry_only,0.7339286191377391,0.15403443937759942,geometry_only|enriched_interpretable|geometry_plus_topology|geo_plus_rac,pre_combustion_psa,A_raw_uptake,4
+geo_plus_rac,0.5798854702023057,0.06536463697049427,0.06536463697049427,geo_plus_rac,0.5798854702023057,0.06536463697049427,geo_plus_rac,natural_gas_purification,A_raw_uptake,4
+geo_plus_rac,0.5593678103600597,0.0764284190659239,0.0764284190659239,geo_plus_rac,0.5593678103600597,0.0764284190659239,geo_plus_rac,landfill_gas_vpsa,A_raw_uptake,4
+geo_plus_rac,0.9846260197239425,,0.02,geometry_only,0.9706852046537706,,geometry_only|enriched_interpretable|geometry_plus_topology|geo_plus_rac,methane_storage_psa,B_working_capacity,1
+geo_plus_rac,0.4802934950911467,,0.02,geo_plus_rac,0.4802934950911467,,geo_plus_rac,post_combustion_vsa,B_working_capacity,1
+geo_plus_rac,0.9105375226830754,,0.02,geo_plus_rac,0.9105375226830754,,geo_plus_rac,pre_combustion_psa,B_working_capacity,1
+geo_plus_rac,0.611698357136819,,0.02,geo_plus_rac,0.611698357136819,,geo_plus_rac,natural_gas_purification,B_working_capacity,1
+geo_plus_rac,0.6996408611155338,,0.02,geo_plus_rac,0.6996408611155338,,geo_plus_rac,landfill_gas_vpsa,B_working_capacity,1
+geo_plus_rac,0.7935382246176348,,0.02,geo_plus_rac,0.7935382246176348,,geo_plus_rac,post_combustion_vsa,C_direct_log_selectivity,1
+geo_plus_rac,0.8886708164739814,,0.02,geo_plus_rac,0.8886708164739814,,geo_plus_rac,pre_combustion_psa,C_direct_log_selectivity,1
+geo_plus_rac,0.6678309676368774,,0.02,geo_plus_rac,0.6678309676368774,,geo_plus_rac,natural_gas_purification,C_direct_log_selectivity,1
+geo_plus_rac,0.6607574071339422,,0.02,geo_plus_rac,0.6607574071339422,,geo_plus_rac,landfill_gas_vpsa,C_direct_log_selectivity,1

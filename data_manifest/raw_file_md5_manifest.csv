@@ -1,0 +1,14 @@
+logical_name,file,exists,size_mb,md5
+geometry,geometric_properties.csv,TRUE,105.282,345ecb861674a3a25e7be580cd1ab716
+racs,RACs.csv,TRUE,799.539,0bc7315e8bab41cc115c2baf31ba2ca4
+topology,all_topology_lists.csv,TRUE,11.142,14da9901247d08e450fb31d84c6ac912
+methane,methane.csv,TRUE,94.467,48ee74a8bc5e02fd90c043a09b63eb0b
+postcomb_co2,post_comb_vsa-CO2.csv,TRUE,107.092,9d516ec31dd1c97f0e2b929df50ca249
+postcomb_n2,post_comb_vsa-N2.csv,TRUE,106.405,cde549daf06b436f5721f5c07709c583
+precomb_co2,pre_comb_4040-CO2.csv,TRUE,109.72,5a47aa6df2faa8b6e602fd220122f654
+precomb_h2,pre_comb_4040-H2.csv,TRUE,107.456,0464eab47218715e1f312e9f5c12f709
+ngp_co2,methane_purification-CO2.csv,TRUE,106.803,06f7e5a14cfdc3561d8d33eb2c076449
+ngp_ch4,methane_purification-CH4.csv,TRUE,106.718,bca6a607b40c8ba02a3225c0208fb549
+landfill_co2,landfill-CO2.csv,TRUE,106.899,e8649940b48df03cd42c2a8aee722554
+landfill_ch4,landfill-CH4.csv,TRUE,106.562,0f1cbae2fb5894162f84961bd2045480
+process,overall_process.csv,TRUE,218.064,04b17cf2fc3431b05a7882bdff2abc3a
